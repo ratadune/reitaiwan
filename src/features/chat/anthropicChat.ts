@@ -29,7 +29,9 @@ export async function getAnthropicChatResponseStream(
   if (!response.ok) {
     throw new Error("Anthropic APIリクエストに失敗しました");
   }
-
+  if (!response.body) {
+    throw new Error("Response body is null");
+  }
   const reader = response.body.getReader();
   const decoder = new TextDecoder("utf-8");
 
