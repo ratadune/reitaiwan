@@ -28,7 +28,9 @@ export default function Home() {
   const [selectAIService, setSelectAIService] = useState("openai");
   const [selectAIModel, setSelectAIModel] = useState("gpt-3.5-turbo");
   const [openAiKey, setOpenAiKey] = useState("");
-  const [anthropicKey, setAnthropicKey] = useState("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");
+  
+  const [anthropicKey, setAnthropicKey] = useState("");
+  
   //
   const [selectVoice, setSelectVoice] = useState("simple_vits");//vits on
   const [simpleVitsUrl, setSimpleVitsUrl] = useState("https://artrajz-vits-simple-api.hf.space/voice/vits"); // vits location
@@ -331,7 +333,7 @@ export default function Home() {
         setChatProcessing(false);
       }
     },
-    [webSocketMode, koeiroParam, handleSpeakAi, codeLog, t, selectAIService, openAiKey, anthropicKey, chatLog, systemPrompt, selectAIModel]
+    [webSocketMode, koeiroParam, handleSpeakAi, codeLog, t, selectAIService, openAiKey, anthropicKey, chatLog, systemPrompt, selectAIModel,autoReplyMode]
   );
   
     /**
@@ -351,7 +353,7 @@ export default function Home() {
         console.log(`距離下一次自動回復還有 ${Math.ceil(remainingTime / 1000)} 秒`);
       }
     }
-  }, [autoReplyMode, lastCommentTime, handleSendChat]);
+  }, [autoReplyMode, lastCommentTime, handleSendChat,YT_AUTO_REPLY_MESSAGES]);
 
 
 

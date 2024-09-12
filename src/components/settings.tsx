@@ -375,7 +375,7 @@ export const Settings = ({
                 <option value="voicevox">{t('UsingVoiceVox')}</option>
                 <option value="koeiromap">{t('UsingKoeiromap')}</option>
                 <option value="google">{t('UsingGoogleTTS')}</option>
-                <option value="simple_vits">{t('simple_vits')}</option> //vits
+                <option value="simple_vits">{t('simple_vits')}</option>  {/* 這是註釋 */}
               </select>
             </div>
             <div>&nbsp;</div>

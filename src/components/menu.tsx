@@ -240,7 +240,7 @@ export const Menu = ({
 		if (autoDeleteLog) {
 		  onDeleteChatLog(24);
 		}
-	}, [autoDeleteLog,chatLog.length]);
+	}, [autoDeleteLog,chatLog.length,onDeleteChatLog]);
 
 
   return (
