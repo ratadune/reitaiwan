@@ -27,7 +27,7 @@ export const MessageInput = ({
   const handleKeyDown = useCallback(
   (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-        onClickSendButton();
+        onClickSendButton(event as unknown as React.MouseEvent<HTMLButtonElement>);
     }
   },[onClickSendButton]);
   
