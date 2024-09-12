@@ -1,4 +1,4 @@
-import { OpenAI } from "openai";
+import { OpenAI ,ChatCompletionMessageParam} from "openai";
 import { Message } from "../messages/messages";
 
 export async function getOpenAIChatResponse(messages: Message[], apiKey: string, model: string) {
