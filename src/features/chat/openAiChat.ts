@@ -9,13 +9,13 @@ export async function getOpenAIChatResponse(messages: Message[], apiKey: string,
 
   const openai = new OpenAI({
     apiKey: apiKey,
-    //api_base: 'https://api.chatanywhere.cn/v1', // 新增這行
+    //api_base: 'https://api.chatanywhere.cn/v1', // 
     dangerouslyAllowBrowser: true,
   });
 
   const data = await openai.chat.completions.create({
     model: model,
-    messages: messages,
+    messages: messagesas unknown as ChatCompletionMessageParam[], // 使用類型斷言
   });
 
   const [aiRes] = data.choices;
@@ -38,14 +38,14 @@ export async function getOpenAIChatResponseStream(
 
   const openai = new OpenAI({
     apiKey: apiKey,
-    //baseURL: 'https://free.gpt.ge/v1', // 新增這行A
-    //baseURL: 'https://api.chatanywhere.cn/', // 新增這行
+    //baseURL: 'https://free.gpt.ge/v1', // 
+    //baseURL: 'https://api.chatanywhere.cn/', // 
     dangerouslyAllowBrowser: true,
   });
   console.log("openai:"+ openai);
   const stream_reply = await openai.chat.completions.create({
     model: model,
-    messages: messages,
+    messages: as unknown as ChatCompletionMessageParam[], // 使用類型斷言
     stream: true,
     max_tokens: 200,
   });
