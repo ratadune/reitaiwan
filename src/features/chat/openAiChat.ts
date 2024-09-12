@@ -9,7 +9,7 @@ export async function getOpenAIChatResponse(messages: Message[], apiKey: string,
 
   const openai = new OpenAI({
     apiKey: apiKey,
-    api_base: 'https://api.chatanywhere.cn/v1', // 新增這行
+    //api_base: 'https://api.chatanywhere.cn/v1', // 新增這行
     dangerouslyAllowBrowser: true,
   });
 
