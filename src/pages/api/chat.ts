@@ -1,4 +1,4 @@
-import { OpenAIApi } from "openai";
+import { OpenAI } from "openai";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
@@ -19,11 +19,11 @@ export default async function handler(
     return;
   }
 
-  const openai = new OpenAIApi({
+  const openai = new OpenAI({
     apiKey: apiKey,
   });
 
-  const { data } = await openai.createChatCompletion({
+  const { data } = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: req.body.messages,
   });
