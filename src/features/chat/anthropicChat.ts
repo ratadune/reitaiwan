@@ -1,7 +1,7 @@
 import { Message } from "../messages/messages";
 
 export async function getAnthropicChatResponse(messages: Message[], apiKey: string, model: string) {
-  const response = await fetch("/api/anthropic", {
+  const response = await fetch("/reitaiwan/api/anthropic", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export async function getAnthropicChatResponseStream(
   apiKey: string,
   model: string
 ) {
-  const response = await fetch("/api/anthropic", {
+  const response = await fetch("/reitaiwan/api/anthropic", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
