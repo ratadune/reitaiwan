@@ -6,8 +6,12 @@ export async function getAnthropicChatResponse(messages: Message[], apiKey: stri
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ messages, apiKey, model}),
+    body: JSON.stringify({ messages, apiKey, model }),
   });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch Anthropic API");
+  }
 
   const data = await response.json();
   return data;
@@ -27,11 +31,13 @@ export async function getAnthropicChatResponseStream(
   });
 
   if (!response.ok) {
-    throw new Error("Anthropic APIリクエストに失敗しました");
+    throw new Error("Failed to fetch Anthropic API");
   }
+
   if (!response.body) {
     throw new Error("Response body is null");
   }
+
   const reader = response.body.getReader();
   const decoder = new TextDecoder("utf-8");
 
