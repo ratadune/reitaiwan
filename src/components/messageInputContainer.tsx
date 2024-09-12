@@ -103,6 +103,7 @@ export const MessageInputContainer = ({
       onChangeUserMessage={(e) => setUserMessage(e.target.value)}
       onClickMicButton={handleClickMicButton}
       onClickSendButton={handleClickSendButton}
+      onClickLangButton={handleClickLangButton} // 添加這一行
     />
   );
 };
