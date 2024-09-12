@@ -15,7 +15,7 @@ export async function getOpenAIChatResponse(messages: Message[], apiKey: string,
 
   const data = await openai.chat.completions.create({
     model: model,
-    messages: messagesas unknown as ChatCompletionMessageParam[], // 使用類型斷言
+    messages: messages as unknown as ChatCompletionMessageParam[], // 使用類型斷言
   });
 
   const [aiRes] = data.choices;
@@ -45,7 +45,7 @@ export async function getOpenAIChatResponseStream(
   console.log("openai:"+ openai);
   const stream_reply = await openai.chat.completions.create({
     model: model,
-    messages: as unknown as ChatCompletionMessageParam[], // 使用類型斷言
+    messages: messages as unknown as ChatCompletionMessageParam[], // 使用類型斷言
     stream: true,
     max_tokens: 200,
   });
