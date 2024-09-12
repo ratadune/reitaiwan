@@ -51,14 +51,14 @@ export async function getOpenAIChatResponseStream(
     max_tokens: 200,
   });
   
-    //console.log("[C]");
-    console.log("stream_reply:"+stream_reply);
-  console.log("stream_reply.chunk:"+stream_reply.chunk);
+  //console.log("[C]");
+  console.log("stream_reply:"+stream_reply);
+
   const res = new ReadableStream({
     async start(controller: ReadableStreamDefaultController) {
       try {
         for await (const chunk of stream_reply) {
-          console.log(chunk)
+          console.log(chunk);
           const messagePiece = chunk.choices[0].delta.content;
           if (!!messagePiece) {
             controller.enqueue(messagePiece);
@@ -73,4 +73,3 @@ export async function getOpenAIChatResponseStream(
   });
 
   return res;
-}
