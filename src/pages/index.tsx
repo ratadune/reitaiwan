@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState, useRef } from "react";
+import { useCallback, useContext, useEffect, useState, useRef ,useMemo} from "react";
 import VrmViewer from "@/components/vrmViewer";
 import { ViewerContext } from "@/features/vrmViewer/viewerContext";
 import {
@@ -54,11 +54,11 @@ export default function Home() {
   const { t } = useTranslation();
   const INTERVAL_MILL_SECONDS_RETRIEVING_COMMENTS = 20000; // 20秒
   const YT_AUTO_REPLY_INTERVAL = 120000; // 80秒 autoYT
-  const YT_AUTO_REPLY_MESSAGES = [ //autoYT
+  const YT_AUTO_REPLY_MESSAGES = useMemo(() => [//autoYT
     "(接著話題自我介紹)",
     "(接著話題和觀眾打招呼)",
     "(接著話題講芙蘭姐姐你自己最喜歡的東西)"
-  ];
+  ], []);
   
   useEffect(() => {
     const storedData = window.localStorage.getItem("chatVRMParams");

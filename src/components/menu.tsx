@@ -224,13 +224,14 @@ export const Menu = ({
     [viewer]
   );
   
-	const onDeleteChatLog = (mylenth: number) => { // auto del button
-		while  (chatLog.length > mylenth) {	
-				const NewMessage = chatLog[0];
-				setOutputMessage((prevOutputMessage) => [...prevOutputMessage, NewMessage]);
-				chatLog.splice(0, 1);		
-		}		
-	};
+  const onDeleteChatLog = useCallback((mylenth: number) => { // auto del button
+    while (chatLog.length > mylenth) {
+      const NewMessage = chatLog[0];
+      setOutputMessage((prevOutputMessage) => [...prevOutputMessage, NewMessage]);
+      chatLog.splice(0, 1);
+    }
+  }, [chatLog]);
+
 	const onUndoChatLog = () => {				     // Undo button
 		chatLog.splice( chatLog.length-1 , 1);
 		chatLog.splice( chatLog.length-1 , 1);
