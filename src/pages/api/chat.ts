@@ -23,12 +23,12 @@ export default async function handler(
     apiKey: apiKey,
   });
 
-  const { data } = await openai.chat.completions.create({
+  const completion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: req.body.messages,
   });
 
-  const [aiRes] = data.choices;
+  const [aiRes] = completion.choices;
   const message = aiRes.message?.content || "エラーが発生しました";
 
   res.status(200).json({ message: message });
