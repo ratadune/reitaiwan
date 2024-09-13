@@ -1,5 +1,5 @@
 import { Message } from "../messages/messages";
-import { Anthropic, StreamEvent } from "@anthropic-ai/sdk";
+import { Anthropic } from "@anthropic-ai/sdk";
 
 // ... 前面的代碼保持不變 ...
 
