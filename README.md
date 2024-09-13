@@ -1,3 +1,5 @@
+https://ratadune.github.io/reitaiwan/
+
 # 誰でもAITuberお試しキット
 [English version](./en_README.md)
 
