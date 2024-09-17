@@ -193,8 +193,8 @@ export const Settings = ({
                           }
                         }}
                       >
-                        <option value="anthropic">Anthropic</option>
                         <option value="openai">OpenAI</option>
+                        <option value="anthropic">Anthropic</option>
                         <option value="ollama">ローカルLLM（Ollama）</option>
                       </select>
                       </div>
