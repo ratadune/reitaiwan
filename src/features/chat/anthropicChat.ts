@@ -1,6 +1,6 @@
 import { Message } from "../messages/messages";
 
-const WORKER_URL = 'https://anthropic-api-proxy.your-subdomain.workers.dev'; 
+const WORKER_URL = 'https://anthropic-api-proxy.ratadune.workers.dev/'; 
 // 替換為您的 Worker URL
 
 export async function getAnthropicChatResponseStream(
