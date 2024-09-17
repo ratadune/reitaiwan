@@ -1,14 +1,14 @@
 import { Message } from "../messages/messages";
 
 const WORKER_URL = 'https://anthropic-api-proxy.ratadune.workers.dev/';
-console.log("WORKER_URL=", WORKER_URL);
+//console.log("WORKER_URL=", WORKER_URL);
 
 export async function getAnthropicChatResponseStream(
   messages: Message[],
   apiKey: string,
   model: string
 ) {
-  console.log("Function called with:", {
+  //console.log("Function called with:", {
     messagesCount: messages.length,
     apiKeyLength: apiKey.length,
     model: model
@@ -28,7 +28,7 @@ export async function getAnthropicChatResponseStream(
     system: systemMessage ? systemMessage.content : undefined,
   };
   console.log("Request body:", JSON.stringify(requestBody, null, 2));
-  console.log("apiK:", apiKey);
+  //console.log("apiK:", apiKey);
   try {
     const response = await fetch(`${WORKER_URL}?api_key=${apiKey}`, {
       method: 'POST',
@@ -67,7 +67,7 @@ export async function getAnthropicChatResponseStream(
           }
   
           const chunk = decoder.decode(value);
-          console.log("Received chunk:", chunk);
+          //console.log("Received chunk:", chunk);
           const lines = chunk.split("\n");
   
           for (const line of lines) {
@@ -79,7 +79,7 @@ export async function getAnthropicChatResponseStream(
                   switch (event.type) {
                     case "content_block_delta":
                       fullResponse += event.delta.text;
-                      console.log("Accumulated response:", fullResponse);
+                      //console.log("Accumulated response:", fullResponse);
                       controller.enqueue(event.delta.text);
                       break;
                     case "error":
