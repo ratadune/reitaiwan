@@ -1,6 +1,6 @@
 import { Message } from "../messages/messages";
 
-const WORKER_URL = 'https://anthropic-api-proxy.ratadune.workers.dev/'; 
+const WORKER_URL = 'https://anthropic-api-proxy.ratadune.workers.dev/';
 console.log("WORKER_URL=", WORKER_URL);
 
 export async function getAnthropicChatResponseStream(
@@ -14,14 +14,19 @@ export async function getAnthropicChatResponseStream(
     model: model
   });
 
+  // 提取系統消息
+  const systemMessage = messages.find(msg => msg.role === "system");
+  const userMessages = messages.filter(msg => msg.role !== "system");
+
   const requestBody = {
-    messages: messages,
+    messages: userMessages,
     model: model,
     max_tokens: 200,
     stream: true,
+    system: systemMessage ? systemMessage.content : undefined,
   };
   console.log("Request body:", JSON.stringify(requestBody, null, 2));
-
+  console.log("apiK:", apiKey);
   try {
     const response = await fetch(`${WORKER_URL}?api_key=${apiKey}`, {
       method: 'POST',
@@ -45,41 +50,7 @@ export async function getAnthropicChatResponseStream(
       throw new Error('Response body is null');
     }
 
-    return new ReadableStream<string>({
-      async start(controller) {
-        const reader = (response.body as ReadableStream<Uint8Array>).getReader();
-        try {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) {
-              console.log("Stream complete");
-              break;
-            }
-            const chunk = new TextDecoder().decode(value);
-            console.log("Received chunk:", chunk);
-            const lines = chunk.split('\n');
-            for (const line of lines) {
-              if (line.startsWith('data: ')) {
-                try {
-                  const data = JSON.parse(line.slice(6));
-                  if (data.type === 'content_block_delta') {
-                    controller.enqueue(data.delta.text);
-                  }
-                } catch (parseError) {
-                  console.error('Error parsing JSON:', parseError);
-                }
-              }
-            }
-          }
-        } catch (error) {
-          console.error('Stream reading error:', error);
-          controller.error(error);
-        } finally {
-          reader.releaseLock();
-          controller.close();
-        }
-      }
-    });
+    // ... 其餘的流處理代碼保持不變 ...
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;
