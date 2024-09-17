@@ -193,8 +193,8 @@ export const Settings = ({
                           }
                         }}
                       >
-                        <option value="openai">OpenAI</option>
                         <option value="anthropic">Anthropic</option>
+                        <option value="openai">OpenAI</option>
                         <option value="ollama">ローカルLLM（Ollama）</option>
                       </select>
                       </div>
@@ -255,11 +255,9 @@ export const Settings = ({
                                 value={selectAIModel}
                                 onChange={(e) => setSelectAIModel(e.target.value)}
                               >
+                              <option value="claude-3-haiku-20240307">claude-3-haiku-20240307</option>  
                               <option value="claude-3-sonnet-20240229">claude-3-sonnet-20240229</option>
                               <option value="claude-3-opus-20240229">claude-3-opus-20240229</option>
-                                <option value="claude-3-haiku-20240307">claude-3-haiku-20240307</option>
-                                
-                                
                               </select>
                             </div>
                           </div>
