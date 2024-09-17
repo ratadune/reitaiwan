@@ -24,9 +24,10 @@ export async function getAnthropicChatResponseStream(
     throw new Error('Response body is null');
   }
 
-  return new ReadableStream({
+  return new ReadableStream<string>({
     async start(controller) {
-      const reader = response.body.getReader();
+      // 使用類型斷言來告訴 TypeScript response.body 不為 null
+      const reader = (response.body as ReadableStream<Uint8Array>).getReader();
       try {
         while (true) {
           const { done, value } = await reader.read();
@@ -35,14 +36,19 @@ export async function getAnthropicChatResponseStream(
           const lines = chunk.split('\n');
           for (const line of lines) {
             if (line.startsWith('data: ')) {
-              const data = JSON.parse(line.slice(6));
-              if (data.type === 'content_block_delta') {
-                controller.enqueue(data.delta.text);
+              try {
+                const data = JSON.parse(line.slice(6));
+                if (data.type === 'content_block_delta') {
+                  controller.enqueue(data.delta.text);
+                }
+              } catch (parseError) {
+                console.error('Error parsing JSON:', parseError);
               }
             }
           }
         }
       } catch (error) {
+        console.error('Stream reading error:', error);
         controller.error(error);
       } finally {
         reader.releaseLock();
