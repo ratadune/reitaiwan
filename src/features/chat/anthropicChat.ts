@@ -16,7 +16,9 @@ export async function getAnthropicChatResponseStream(
 
   // 提取系統消息
   const systemMessage = messages.find(msg => msg.role === "system");
-  const userMessages = messages.filter(msg => msg.role !== "system");
+  let userMessages = messages.filter(msg => msg.role !== "system");
+  // 確保消息交替
+  userMessages = ensureAlternatingRoles(userMessages);
 
   const requestBody = {
     messages: userMessages,
@@ -49,10 +51,31 @@ export async function getAnthropicChatResponseStream(
       console.error("Response body is null");
       throw new Error('Response body is null');
     }
-
-    // ... 其餘的流處理代碼保持不變 ...
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;
   }
+}
+
+
+function ensureAlternatingRoles(messages: Message[]): Message[] {
+  const result: Message[] = [];
+  let lastRole: string | null = null;
+
+  for (const message of messages) {
+    if (message.role === lastRole) {
+      // 如果連續兩個相同角色，插入一個空的對方回覆
+      const oppositeRole = message.role === 'user' ? 'assistant' : 'user';
+      result.push({ role: oppositeRole, content: '' });
+    }
+    result.push(message);
+    lastRole = message.role;
+  }
+
+  // 確保最後一條消息是用戶的
+  if (result[result.length - 1].role !== 'user') {
+    result.push({ role: 'user', content: '' });
+  }
+
+  return result;
 }
