@@ -8,11 +8,13 @@ export async function getAnthropicChatResponseStream(
   apiKey: string,
   model: string
 ) {
-  //console.log("Function called with:", {
-    messagesCount: messages.length,
-    apiKeyLength: apiKey.length,
-    model: model
-  });
+    /*
+    console.log("Function called with:", {
+      messagesCount: messages.length,
+      apiKeyLength: apiKey.length,
+      model: model
+    });
+    */
 
   // 提取系統消息
   const systemMessage = messages.find(msg => msg.role === "system");
