@@ -1,13 +1,14 @@
 import { Message } from "../messages/messages";
 
-const PROXY_URL = '/reitaiwan/api-proxy.html';
+const WORKER_URL = 'https://anthropic-api-proxy.your-subdomain.workers.dev'; 
+// 替換為您的 Worker URL
 
 export async function getAnthropicChatResponseStream(
   messages: Message[],
   apiKey: string,
   model: string
 ) {
-  const response = await fetch(`${PROXY_URL}?api_key=${apiKey}`, {
+  const response = await fetch(`${WORKER_URL}?api_key=${apiKey}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
