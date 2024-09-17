@@ -55,7 +55,45 @@ export async function getAnthropicChatResponseStream(
     console.error("Fetch error:", error);
     throw error;
   }
-}
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder("utf-8");
+
+  return new ReadableStream({
+    async start(controller) {
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+          break;
+        }
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (line.startsWith("data:")) {
+            const data = line.substring(5).trim();
+            if (data !== "[DONE]") {
+              const event = JSON.parse(data);
+              switch (event.type) {
+                case "content_block_delta":
+                  controller.enqueue(event.text);
+                  break;
+                case "error":
+                  throw new Error(`Anthropic API error: ${JSON.stringify(event.error)}`);
+                case "message_stop":
+                  controller.close();
+                  return;
+              }
+            }
+          }
+        }
+      }
+      controller.close();
+    },
+  });
+
+}// export  function
 
 
 function ensureAlternatingRoles(messages: Message[]): Message[] {
