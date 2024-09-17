@@ -20,6 +20,10 @@ export async function getAnthropicChatResponseStream(
     }),
   });
 
+  if (!response.body) {
+    throw new Error('Response body is null');
+  }
+
   return new ReadableStream({
     async start(controller) {
       const reader = response.body.getReader();
@@ -38,6 +42,8 @@ export async function getAnthropicChatResponseStream(
             }
           }
         }
+      } catch (error) {
+        controller.error(error);
       } finally {
         reader.releaseLock();
         controller.close();
