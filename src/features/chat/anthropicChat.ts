@@ -57,30 +57,41 @@ export async function getAnthropicChatResponseStream(
   
     return new ReadableStream({
       async start(controller) {
+        let fullResponse = '';
         while (true) {
           const { done, value } = await reader.read();
   
           if (done) {
+            console.log("Stream complete. Full response:", fullResponse);
             break;
           }
   
           const chunk = decoder.decode(value);
+          console.log("Received chunk:", chunk);
           const lines = chunk.split("\n");
   
           for (const line of lines) {
             if (line.startsWith("data:")) {
               const data = line.substring(5).trim();
               if (data !== "[DONE]") {
-                const event = JSON.parse(data);
-                switch (event.type) {
-                  case "content_block_delta":
-                    controller.enqueue(event.text);
-                    break;
-                  case "error":
-                    throw new Error(`Anthropic API error: ${JSON.stringify(event.error)}`);
-                  case "message_stop":
-                    controller.close();
-                    return;
+                try {
+                  const event = JSON.parse(data);
+                  switch (event.type) {
+                    case "content_block_delta":
+                      fullResponse += event.delta.text;
+                      console.log("Accumulated response:", fullResponse);
+                      controller.enqueue(event.delta.text);
+                      break;
+                    case "error":
+                      console.error("Anthropic API error:", JSON.stringify(event.error));
+                      throw new Error(`Anthropic API error: ${JSON.stringify(event.error)}`);
+                    case "message_stop":
+                      console.log("Message complete. Final response:", fullResponse);
+                      controller.close();
+                      return;
+                  }
+                } catch (parseError) {
+                  console.error("Error parsing JSON:", parseError, "Raw data:", data);
                 }
               }
             }
@@ -89,8 +100,6 @@ export async function getAnthropicChatResponseStream(
         controller.close();
       },
     });
-
-
     
   } catch (error) {
     console.error("Fetch error:", error);
