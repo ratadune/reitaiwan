@@ -2,12 +2,16 @@
 const nextConfig = {
   reactStrictMode: true,
   assetPrefix: process.env.BASE_PATH || "",
-  basePath: process.env.BASE_PATH || "/reitaiwan",
+  basePath: process.env.BASE_PATH || "",
   trailingSlash: true,
   publicRuntimeConfig: {
-    root: process.env.BASE_PATH || "/reitaiwan",
+    root: process.env.BASE_PATH || "",
   },
   optimizeFonts: false,
 };
 
-module.exports = nextConfig;
+//module.exports = nextConfig;
+module.exports = {
+  basePath: process.env.BASE_PATH || '',
+  assetPrefix: process.env.BASE_PATH || '',
+}
