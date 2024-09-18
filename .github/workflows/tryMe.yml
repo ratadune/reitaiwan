@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      BASE_PATH: "/${{ github.event.repository.name }}"
+      BASE_PATH: "/${{ github.event.repository.name }}/tryMe"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -67,6 +67,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: ./out
+          name: tryMe-artifact
 
   deploy:
     environment:
@@ -75,8 +76,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: (tryMe branch)Deploy to GitHub Pages
+      - name: Deploy tryMe branch to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
         with:
-          publish_dir: ./out/tryMe
+          artifact_name: tryMe-artifact
+          path: tryMe
