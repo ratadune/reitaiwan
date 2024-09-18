@@ -89,8 +89,8 @@ export async function getAnthropicChatResponseStream(
                       throw new Error(`Anthropic API error: ${JSON.stringify(event.error)}`);
                     case "message_stop":
                       console.log("Message complete. Final response:", fullResponse);
-                      controller.close();
-                      return;
+                      //controller.close();
+                     // return;
                   }
                 } catch (parseError) {
                   console.error("Error parsing JSON:", parseError, "Raw data:", data);
